@@ -16,7 +16,7 @@ const martianMono = Martian_Mono({
 
 export const metadata: Metadata = {
   title: "DevEvent",
-  description: "The Hub for Every Dev Event You Musn't Miss",
+  description: "The Hub for Every Dev Event You Mustn't Miss",
 };
 
 export default function RootLayout({
