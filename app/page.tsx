@@ -7,6 +7,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL?.startsWith('http')
     ? process.env.NEXT_PUBLIC_BASE_URL
     : `https://${process.env.NEXT_PUBLIC_BASE_URL}`;
 
+// Fetch events from API
 const Page = async () => {
     'use cache';
     cacheLife('hours')
