@@ -36,9 +36,33 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
     const { slug } = await params;
 
-    const request = await fetch(`${BASE_URL}/api/events/${slug}`);
+    const request = await fetch(`${BASE_URL}/api/events/${slug}`, {
+        cache: 'force-cache',
+        next: { revalidate: 3600 }, // Revalidate every hour
+    });
+
+    // Check response status
+    if (!request.ok) {
+        if (request.status === 404) {
+            return notFound();
+        }
+        // Log other errors and return not found
+        console.error(`Failed to fetch event: ${request.status} ${request.statusText}`);
+        return notFound();
+    }
+
+    // Parse JSON response
+    const json = await request.json();
+
+    // Validate response shape
+    if (!json.event) {
+        console.error("Invalid API response: missing event data");
+        return notFound();
+    }
+
     const {
         event: {
+            _id: eventId,
             description,
             image,
             overview,
@@ -51,8 +75,9 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> 
             tags,
             organizer,
         },
-    } = await request.json();
+    } = json;
 
+    // Validate required fields
     if (!description) return notFound();
 
     const bookings = 10;
@@ -135,7 +160,7 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> 
                         ) : (
                             <p className="text-sm">Be the First to Book Your Spot</p>
                         )}
-                        <BookEvent />
+                        <BookEvent eventId={eventId} slug={slug} />
                     </div>
                 </aside>
             </div>

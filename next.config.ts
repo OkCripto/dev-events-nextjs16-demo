@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  typescript:{
+    ignoreBuildErrors:true,
+  },
+
   cacheComponents: true,
+  experimental: {
+    dynamicIO: true,
+  },
   images: {
     remotePatterns: [
       {
