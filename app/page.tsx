@@ -22,7 +22,7 @@ const Page = async () => {
             <div className="mt-20 space-y-7">
                 <h3>Featured Events</h3>
 
-                <div className="events flex gap-6">
+                <div className="events">
                     {events.map((event: IEvent) => (
                         <EventCard key={event.title} {...event} />
                     ))}

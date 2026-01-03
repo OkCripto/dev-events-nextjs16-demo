@@ -100,16 +100,20 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
             <div className="details">
                 <div className="content">
 
-                    {/* FIXED BANNER (proper size) */}
-                    <div className="relative w-full aspect-[16/9] mb-6">
-                        <Image
-                            src={image}
-                            alt="Event Banner"
-                            fill
-                            className="object-cover rounded-xl"
-                            priority
-                        />
-                    </div>
+                    {/* Event Banner Image */}
+                    {image && (
+                        <div className="mb-6">
+                            <Image
+                                src={image}
+                                alt="Event Banner"
+                                width={1200}
+                                height={600}
+                                className="w-full h-auto rounded-xl object-cover"
+                                priority
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                            />
+                        </div>
+                    )}
 
                     <section className="flex-col-gap-2">
                         <h2>Overview</h2>
@@ -138,20 +142,21 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
                     <div className="mt-16">
                         <h2 className="mb-6">Similar Events</h2>
 
-                        <div className="max-w-3xl">
-                            <div className="flex flex-col gap-6">
-                                {similarEvents.map(event => (
-                                    <EventCard
-                                        key={event.slug}
-                                        title={event.title}
-                                        image={event.image}
-                                        date={event.date}
-                                        time={event.time}
-                                        location={event.location}
-                                        slug={event.slug}
-                                    />
-                                ))}
-                            </div>
+                        <div
+                            className="w-full max-w-3xl"
+                            style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
+                        >
+                            {similarEvents.map(event => (
+                                <EventCard
+                                    key={event.slug}
+                                    title={event.title}
+                                    image={event.image}
+                                    date={event.date}
+                                    time={event.time}
+                                    location={event.location}
+                                    slug={event.slug}
+                                />
+                            ))}
                         </div>
                     </div>
 
