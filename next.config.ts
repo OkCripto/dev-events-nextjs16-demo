@@ -6,9 +6,6 @@ const nextConfig: NextConfig = {
   },
 
   cacheComponents: true,
-  experimental: {
-    dynamicIO: true,
-  },
   images: {
     remotePatterns: [
       {

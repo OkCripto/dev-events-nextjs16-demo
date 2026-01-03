@@ -1,13 +1,15 @@
 import React from 'react'
-import {notFound} from "next/navigation";
-import {IEvent} from "@/database";
-import {getSimilarEventsBySlug} from "@/lib/actions/event.actions";
+import { notFound } from "next/navigation";
+import { IEvent } from "@/database";
+import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
 import Image from "next/image";
 import EventCard from "@/components/EventCard";
 import BookEvent from "@/components/BookEvent";
-import {cacheLife} from "next/cache";
+import { cacheLife } from "next/cache";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL?.startsWith('http')
+    ? process.env.NEXT_PUBLIC_BASE_URL
+    : `https://${process.env.NEXT_PUBLIC_BASE_URL}`;
 
 const EventDetailItem = ({ icon, alt, label }: { icon: string; alt: string; label: string }) => (
     <div className="flex-row-gap-2 items-center">
@@ -35,7 +37,7 @@ const EventTags = ({ tags }: { tags: string[] }) => (
     </div>
 );
 
-const EventDetails = async ({params}:{params: Promise<string>  }) => {
+const EventDetails = async ({ params }: { params: Promise<string> }) => {
 
     'use cache'
     cacheLife('hours')
